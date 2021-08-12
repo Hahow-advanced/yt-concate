@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from yt_concate.settings import DOWNLOADS_DIR
 from yt_concate.settings import VIDEOS_DIR
@@ -11,7 +12,8 @@ class Utils:
         pass
 
     # in Preflight
-    def create_dirs(self):
+    @staticmethod
+    def create_dirs():
         os.makedirs(DOWNLOADS_DIR, exist_ok=True)
         os.makedirs(VIDEOS_DIR, exist_ok=True)
         os.makedirs(CAPTIONS_DIR, exist_ok=True)
@@ -43,3 +45,8 @@ class Utils:
     def get_output_filepath(channel_id, search_word):
         filename = f"{channel_id}_{search_word}.mp4"
         return os.path.join(OUTPUTS_DIR, filename)
+
+    # in Postflight
+    @staticmethod
+    def delete_files(file_path):
+        shutil.rmtree(file_path)

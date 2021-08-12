@@ -5,7 +5,8 @@ from yt_concate.model.found import Found
 
 
 class Search(Step):
-    def process(self, data, inputs, utils):
+    def process(self, data, inputs, utils, log):
+        log.info("Searching words...")
         search_word = inputs["search_word"]
 
         found = []
@@ -18,6 +19,4 @@ class Search(Step):
                     time = captions[caption]
                     f = Found(yt, caption, time)
                     found.append(f)
-        print(found)
-        print(len(found))  #
         return found

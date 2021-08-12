@@ -3,7 +3,8 @@ from .step import StepException
 
 
 class ReadCaption(Step):
-    def process(self, data, inputs, utils):
+    def process(self, data, inputs, utils, log):
+        log.info("Reading captions...")
         for yt in data:
             if not utils.caption_file_exists(yt):
                 continue

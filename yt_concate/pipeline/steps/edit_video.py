@@ -6,7 +6,8 @@ from .step import StepException
 
 
 class EditVideo(Step):
-    def process(self, data, inputs, utils):
+    def process(self, data, inputs, utils, log):
+        log.info("Editting Video...")
         clips = []
         for found in data:
             start, end = self.parse_caption_time(found.time)
@@ -23,7 +24,8 @@ class EditVideo(Step):
         start, end = caption_time.split(" --> ")
         return self.parse_time_str(start), self.parse_time_str(end)
 
-    def parse_time_str(self, time_str):
+    @staticmethod
+    def parse_time_str(time_str):
         h, m, s = time_str.split(":")
         s, ms = s.split(",")
         return int(h), int(m), int(s) + (int(ms)/1000)

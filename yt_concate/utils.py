@@ -28,13 +28,16 @@ class Utils:
         path = self.get_video_list_filepath(channel_id)
         return os.path.exists(path) and os.path.getsize(path) > 0
 
-    # in DownloadCaptions
+    # in DownloadCaptions & DownloadVideos
     @staticmethod
     def caption_file_exists(yt):
         file_path = yt.caption_filepath
         return os.path.exists(file_path) and os.path.getsize(file_path) > 0
 
-    # in DownloadVideos
+    @staticmethod
+    def file_amount(folder_path):
+        return len(os.walk(folder_path).__next__()[2])
+
     @staticmethod
     def video_file_exists(yt):
         file_path = yt.video_filepath

@@ -1,12 +1,10 @@
 from .step import Step
-from .step import StepException
-
 from yt_concate.model.found import Found
 
 
 class Search(Step):
     def process(self, data, inputs, utils, log):
-        log.info("Searching words...")
+        log.debug("=== Searching words... ===")
         search_word = inputs["search_word"]
 
         found = []

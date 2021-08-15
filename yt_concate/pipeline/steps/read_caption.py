@@ -1,10 +1,9 @@
 from .step import Step
-from .step import StepException
 
 
 class ReadCaption(Step):
     def process(self, data, inputs, utils, log):
-        log.info("Reading captions...")
+        log.debug("=== Reading captions... ===")
         for yt in data:
             if not utils.caption_file_exists(yt):
                 continue
@@ -17,12 +16,12 @@ class ReadCaption(Step):
                 for line in f:
                     line = line.strip()
                     if "-->" in line:
-                        time_line = True  # 找到timeline
+                        time_line = True
                         time = line
                         continue
                     if time_line:
                         caption = line
                         captions_dic[caption] = time
-                        time_line = False  # 重置timeline狀態
+                        time_line = False
             yt.captions = captions_dic
         return data

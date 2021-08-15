@@ -14,7 +14,6 @@ from yt_concate.pipeline.steps.download_videos import DownloadVideos
 from yt_concate.pipeline.steps.edit_video import EditVideo
 from yt_concate.pipeline.steps.postflight import Postflight
 
-from yt_concate.pipeline.steps.step import StepException
 from yt_concate.pipeline.pipeline import Pipeline
 
 
@@ -47,14 +46,15 @@ def print_usage():
     print("{:>6} {:<16} {}".format("-s", "--search_word", "The word be searched in captions."))
     print("{:>6} {:<16} {}".format("-l", "--limit", "Amount of the clips be put in the output videos. Default: 20"))
     print("{:>6} {:<16} {}".format("", "--cleanup", "Captions and videos downloaded in run would be deleted."))
-    print("{:>6} {:<16} {}".format("", "--fast", "To check if the file exists or not. If exists, skip downloading."))
-    print("{:>6} {:<16} {}".format("", "--level", "The level to print on the screen("
+    print("{:>6} {:<16} {}".format("", "--fast", "If the file exists, skip downloading."))
+    print("{:>6} {:<16} {}".format("", "--level", "Logging level to print on the screen("
                                                   "debug/info/warning/error/critical). Default: info"))
+    print("{:>6} {:<16} {}".format("", "--thread", "Amount of threads when multi-threading. Default: 2"))
 
 
-def command_set(inputs):
+def command_setup(inputs):
     short_opts = "hc:s:l:"
-    long_opts = "help channel_id= search_word= limit= cleanup fast level=".split()
+    long_opts = "help channel_id= search_word= limit= cleanup fast level= thread=".split()
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], short_opts, long_opts)
@@ -90,6 +90,8 @@ def command_set(inputs):
             else:
                 print_usage()
                 sys.exit(2)
+        elif opt == "--thread":
+            inputs["thread"] = int(arg)
 
     if not inputs["channel_id"] or not inputs["search_word"]:
         print_usage()
@@ -104,9 +106,10 @@ def main():
         "cleanup": False,
         "fast": False,
         "level": logging.INFO,
+        "thread": 2,
     }
 
-    command_set(inputs)
+    command_setup(inputs)
 
     steps = [
         Preflight(),

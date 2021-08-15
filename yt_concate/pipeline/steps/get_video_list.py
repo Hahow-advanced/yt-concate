@@ -1,13 +1,15 @@
+import time
 import urllib.request
 import json
 
-from yt_concate.pipeline.steps.step import Step
+from .step import Step
 from yt_concate.settings import API_KEY
 
 
 class GetVideoList(Step):
     def process(self, data, inputs, utils, log):
-        log.info("Getting video list...")
+        log.info("=== Getting video list... ===")
+        start = time.time()
         channel_id = inputs["channel_id"]
 
         if utils.video_list_file_exists(channel_id):
@@ -34,9 +36,14 @@ class GetVideoList(Step):
                 next_page_token = resp['nextPageToken']
                 url = first_url + '&pageToken={}'.format(next_page_token)
             except KeyError:
-                log.error("Error when getting video list.")
+                log.error("KeyError when getting video list, but doesn't matter.")
                 break
         self.write_to_file(video_links, utils.get_video_list_filepath(channel_id))
+
+        end = time.time()
+        if utils.video_list_file_exists(channel_id):
+            log.info(f"Video list got: Took {end - start} secs.")
+
         return video_links
 
     @staticmethod

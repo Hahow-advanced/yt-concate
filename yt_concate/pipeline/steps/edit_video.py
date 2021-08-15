@@ -2,12 +2,11 @@ from moviepy.editor import VideoFileClip
 from moviepy.editor import concatenate_videoclips as concat
 
 from .step import Step
-from .step import StepException
 
 
 class EditVideo(Step):
     def process(self, data, inputs, utils, log):
-        log.info("Editting Video...")
+        log.info("=== Editing Video... ===")
         clips = []
         for found in data:
             start, end = self.parse_caption_time(found.time)

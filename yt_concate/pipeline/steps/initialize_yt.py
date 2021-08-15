@@ -1,6 +1,4 @@
 from .step import Step
-from .step import StepException
-
 from yt_concate.model.yt import YT
 
 

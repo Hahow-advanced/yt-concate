@@ -2,7 +2,10 @@ import sys
 import getopt
 import logging
 
+sys.path.append("../")
+
 from yt_concate.utils import Utils
+from yt_concate.settings import LOGGING_DIR
 
 from yt_concate.pipeline.steps.preflight import Preflight
 from yt_concate.pipeline.steps.get_video_list import GetVideoList
@@ -17,13 +20,11 @@ from yt_concate.pipeline.steps.postflight import Postflight
 from yt_concate.pipeline.pipeline import Pipeline
 
 
-# command = python3 main.py -c UCnBmw2l9H5APqatWDqmdubw -s like --fast
-
 def config_logger(level):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
-    file_handler = logging.FileHandler("logging.txt")
+    file_handler = logging.FileHandler(LOGGING_DIR)
     stream_handler = logging.StreamHandler()
 
     file_formatting = logging.Formatter("%(levelname)s : %(asctime)s : %(module)s : %(message)s")
@@ -40,7 +41,7 @@ def config_logger(level):
 
 
 def print_usage():
-    print("python3 main.py OPTIONS")
+    print("python3 main11.py OPTIONS")
     print("OPTIONS")
     print("{:>6} {:<16} {}".format("-c", "--channel_id", "Channel id of the youtube channel to download."))
     print("{:>6} {:<16} {}".format("-s", "--search_word", "The word be searched in captions."))
